@@ -3,7 +3,7 @@ NEMUS National Instruments data acquisition MATLAB setup
 
 ## Requirements
 
-- matlab [Data Acquisition Toolbox](https://www.mathworks.com/products/data-acquisition.html)
+- MATLAB [Data Acquisition Toolbox](https://www.mathworks.com/products/data-acquisition.html)
 - Windows or Linux (data acquisition toolbox not available for MacOS)
 
 ## Setup
