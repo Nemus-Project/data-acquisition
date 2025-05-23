@@ -14,17 +14,16 @@ function [Nacc, PosVib, PosImp, PosHam, PosAccs] = setup(dq, sensitivities)
 % 2) Enables the accelerometers chosen by the user
 % 3) Associate each accelerometer to a sample point's index
 % 4) If wanted, enables vibrometer/impedance head/hammer and associates them with a sample point's index
-
 if nargin<2
     error('Not enough input arguments');
 elseif nargin>2
     error('Too many input arguments');
 end
 
-if ~isa(dq, 'daq.Session')
-    error('1st input must be a daq.Session object.');
+if ~isa(dq, 'daq.interfaces.DataAcquisition')
+    error('1st input must be a daq.interfaces.DataAcquisition object.');
 end
-validateattributes(senstivities, {'double'},{'positive'});
+validateattributes(sensitivities, {'double'},{'positive'});
 
 fprintf("\n---------- SET UP PROCEDURE ----------\n");
 
@@ -34,11 +33,18 @@ if length(dq.Channels) ~= 0
 end
 
 %% Retrieve accelerometers and associated position
-Accs = input("\nEnter the ID number of the accelerometers used (example: [12 13 14 20 22]): ");
+Accs = input("\nEnter the ID number of the accelerometers used:\n(example: [12 13 14 20 22])\n-----> ");
 Nacc = length(Accs);
-pos = input("\nDo you want to enter the positions on the sample manually?\n(Otherwise accelerometer's positions will be their order in the previous list) (y/n): ", "s");
+pos = input("\nDo you want to enter the positions on the sample manually?\n(Otherwise accelerometer's positions will be\ntheir order in the previous list) (y/n):\n-----> ", "s");
 if pos == "y"
-    inputPos = input("\nEnter the accelerometer's corresponding position (example: [1 2 5 3 4]): ");
+    test = 1;
+    while test
+        inputPos = input("\nEnter the accelerometer's corresponding position:\n(example: [1 2 5 3 4])\n-----> ");
+        if length(inputPos) == Nacc
+            test = 0;
+        else
+            fprintf("The number of positions must be the number of accelerometers in use.\n")
+    end
     [PosAccs, idx] = sort(inputPos);
     Accs = Accs(idx); % The accelerometers are ordered by position order
 else
@@ -60,9 +66,9 @@ for i = 1:Nacc
 end
 
 %% Set up vibrometer channel
-Vib = input("\nIs the vibrometer used? (y/n): ", "s");
+Vib = input("\nIs the vibrometer used? (y/n):\n-----> ", "s");
 if Vib == "y"
-    PosVib = input("\nEnter the index of the vibrometer's position on the sample: ");
+    PosVib = input("\nEnter the index of the vibrometer's position on the sample:\n-----> ");
     ch = addinput(dq,"Mod7","ai1","IEPE");
     ch.ExcitationCurrent = .002;
     ch.Name = "Vibrometer"+PosVib;
@@ -71,9 +77,9 @@ else
 end
 
 %% Set up impedance head channel
-Imp = input("\nIs the impedance head used? (y/n): ", "s");
+Imp = input("\nIs the impedance head used? (y/n):\n-----> ", "s");
 if Imp == "y"
-    PosImp = input("\nEnter the index of the impedance head's position on the sample: ");
+    PosImp = input("\nEnter the index of the impedance head's position on the sample:\n-----> ");
     ch = addinput(dq,"Mod7","ai2","IEPE");
     ch.ExcitationCurrent = .002;
     ch.Name = "ImpHead"+PosImp;
@@ -82,9 +88,9 @@ else
 end
 
 %% Set up hammer channel
-Ham = input("\nIs the hammer used? (y/n): ", "s");
+Ham = input("\nIs the hammer used? (y/n):\n-----> ", "s");
 if Ham == "y"
-    PosHam = input("\nEnter the index of the hammer's position on the sample: ");
+    PosHam = input("\nEnter the index of the hammer's position on the sample:\n-----> ");
     ch = addinput(dq,"Mod7","ai3","IEPE");
     ch.ExcitationCurrent = .002;
     ch.Name = "Hammer"+PosHam;

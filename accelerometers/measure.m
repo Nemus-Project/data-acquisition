@@ -10,6 +10,23 @@ function data = measure(dq, Nacc, PosVib, PosImp, PosHam, PosAccs, SensVib, Sens
 %   SensVib        % Vibrometer's sensitivity
 %   SensImp        % Impedance head's sensitivity
 %   SensHam        % Hammer's sensitivity
+if nargin<9
+    error('Not enough input arguments');
+elseif nargin>9
+    error('Too many input arguments');
+end
+
+if ~isa(dq, 'daq.interfaces.DataAcquisition')
+    error('1st input must be a daq.interfaces.DataAcquisition object.');
+end
+validateattributes(Nacc, {'double'}, {'scalar', 'integer', 'positive'});
+validateattributes(PosVib, {'double'}, {'scalar', 'integer', 'positive'});
+validateattributes(PosImp, {'double'}, {'scalar', 'integer', 'positive'});
+validateattributes(PosHam, {'double'}, {'scalar', 'integer', 'positive'});
+validateattributes(PosAccs, {'double'}, {'integer', 'positive', 'numel', Nacc});
+validateattributes(SensVib, {'double'}, {'scalar', 'positive'});
+validateattributes(SensImp, {'double'}, {'scalar', 'positive'});
+validateattributes(SensHam, {'double'}, {'scalar', 'positive'});
 
 %% Measurement
 fprintf("\n---------- MEASUREMENT ----------\n");
@@ -38,7 +55,7 @@ else
 end
 
 %% Save data in a csv file
-sav = input("Do you want to save the measure? (y/n): ", "s");
+sav = input("Do you want to save the measure? (y/n):\n-----> ", "s");
 if sav ~= "n"
     saveCSV(dq, data, Nacc, PosVib, PosImp, PosHam, PosAccs);
 end

@@ -9,8 +9,8 @@ elseif nargin>2
     error('Too many input arguments');
 end
 
-validateattributes(data, {'timetable'};)
-validateattributes(label, {'string'});
+validateattributes(data, {'timetable'}, {});
+validateattributes(label, {'char'}, {});
 if ~ismember(label, data.Properties.VariableNames)
     error('Variable "%s" is not in the input timetable.', label);
 end
@@ -22,7 +22,7 @@ signal = data.(label);
 %% Choose the proper unit
 if contains(label, "Acc")
     axlabel = "m/s^2";
-elseif contains(labels, "Vibrometer")
+elseif contains(label, "Vibrometer")
     axlabel = "m/s";
 else
     axlabel = "N";

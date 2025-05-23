@@ -14,14 +14,14 @@ elseif nargin>7
     error('Too many input arguments');
 end
 
-if ~isa(dq, 'daq.Session')
-    error('1st input must be a daq.Session object.');
+if ~isa(dq, 'daq.interfaces.DataAcquisition')
+    error('1st input must be a daq.interfaces.DataAcquisition object.');
 end
-validateattributes(data, {'timetable'});
-validateattributes(Nacc, {'double'}, {'integer', 'positive'});
-validateattributes(PosVib, {'double'}, {'integer', 'positive'});
-validateattributes(PosImp, {'double'}, {'integer', 'positive'});
-validateattributes(PosHam, {'double'}, {'integer', 'positive'});
+validateattributes(data, {'timetable'}, {});
+validateattributes(Nacc, {'double'}, {'scalar', 'integer', 'positive'});
+validateattributes(PosVib, {'double'}, {'scalar', 'integer', 'positive'});
+validateattributes(PosImp, {'double'}, {'scalar', 'integer', 'positive'});
+validateattributes(PosHam, {'double'}, {'scalar', 'integer', 'positive'});
 validateattributes(PosAccs, {'double'}, {'integer', 'positive', 'numel', Nacc});
 
 
@@ -29,8 +29,11 @@ validateattributes(PosAccs, {'double'}, {'integer', 'positive', 'numel', Nacc});
 %% Retrieve output file's name
 test = 1;
 while test
-    OutputFile = input("\nEnter the filename of the output file: ", "s");
-    if OutputFile(end-4:end) ~= ".csv"
+    OutputFile = input("\nEnter the filename of the output file:\n-----> ", "s");
+    if length(OutputFile) < 5
+        fprintf("The file must be a csv file.\n");
+    elseif OutputFile(end-3:end) ~= '.csv'
+        OutputFile(end-3:end)
         fprintf("The file must be a csv file.\n");
     else
         test = 0;
