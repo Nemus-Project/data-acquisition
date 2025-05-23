@@ -20,9 +20,9 @@ if ~isa(dq, 'daq.interfaces.DataAcquisition')
     error('1st input must be a daq.interfaces.DataAcquisition object.');
 end
 validateattributes(Nacc, {'double'}, {'scalar', 'integer', 'positive'});
-validateattributes(PosVib, {'double'}, {'scalar', 'integer', 'positive'});
-validateattributes(PosImp, {'double'}, {'scalar', 'integer', 'positive'});
-validateattributes(PosHam, {'double'}, {'scalar', 'integer', 'positive'});
+validateattributes(PosVib, {'double'}, {'scalar', 'integer', 'nonnegative'});
+validateattributes(PosImp, {'double'}, {'scalar', 'integer', 'nonnegative'});
+validateattributes(PosHam, {'double'}, {'scalar', 'integer', 'nonnegative'});
 validateattributes(PosAccs, {'double'}, {'integer', 'positive', 'numel', Nacc});
 validateattributes(SensVib, {'double'}, {'scalar', 'positive'});
 validateattributes(SensImp, {'double'}, {'scalar', 'positive'});

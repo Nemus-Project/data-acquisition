@@ -44,6 +44,7 @@ if pos == "y"
             test = 0;
         else
             fprintf("The number of positions must be the number of accelerometers in use.\n")
+        end
     end
     [PosAccs, idx] = sort(inputPos);
     Accs = Accs(idx); % The accelerometers are ordered by position order
