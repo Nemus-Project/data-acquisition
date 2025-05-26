@@ -35,22 +35,21 @@ end
 %% Retrieve accelerometers and associated position
 Accs = input("\nEnter the ID number of the accelerometers used:\n(example: [12 13 14 20 22])\n-----> ");
 Nacc = length(Accs);
-pos = input("\nDo you want to enter the positions on the sample manually?\n(Otherwise accelerometer's positions will be\ntheir order in the previous list) (y/n):\n-----> ", "s");
-if pos == "y"
-    test = 1;
-    while test
-        inputPos = input("\nEnter the accelerometer's corresponding position:\n(example: [1 2 5 3 4])\n-----> ");
-        if length(inputPos) == Nacc
-            test = 0;
-        else
-            fprintf("The number of positions must be the number of accelerometers in use.\n")
-        end
+test = 1;
+while test
+    inputPos = input("\nEnter the accelerometers' corresponding positions:\n(example: [1 2 5 3 4])\n(if you leave blank their positions will be their order in the list)\n-----> ");
+    if length(inputPos) == 0
+        PosAccs = 1:Nacc;
+        test = 0;
+    elseif length(inputPos) == Nacc
+        test = 0;
+        [PosAccs, idx] = sort(inputPos);
+        Accs = Accs(idx); % The accelerometers are ordered by position order
+    else
+        fprintf("The number of positions must be the number of accelerometers in use.\n")
     end
-    [PosAccs, idx] = sort(inputPos);
-    Accs = Accs(idx); % The accelerometers are ordered by position order
-else
-    PosAccs = 1:Nacc;
 end
+
 
 %% Set up accelerometer channels
 for i = 1:Nacc
@@ -67,9 +66,8 @@ for i = 1:Nacc
 end
 
 %% Set up vibrometer channel
-Vib = input("\nIs the vibrometer used? (y/n):\n-----> ", "s");
-if Vib == "y"
-    PosVib = input("\nEnter the index of the vibrometer's position on the sample:\n-----> ");
+PosVib = input("\nEnter the index of the vibrometer's position on the sample:\n(Press enter if it is not used)\n-----> ");
+if length(PosVib) > 0
     ch = addinput(dq,"Mod7","ai1","IEPE");
     ch.ExcitationCurrent = .002;
     ch.Name = "Vibrometer"+PosVib;
@@ -78,20 +76,20 @@ else
 end
 
 %% Set up impedance head channel
-Imp = input("\nIs the impedance head used? (y/n):\n-----> ", "s");
-if Imp == "y"
-    PosImp = input("\nEnter the index of the impedance head's position on the sample:\n-----> ");
+PosImp = input("\nEnter the index of the impedance head's position on the sample:\n(Press enter if it is not used)\n-----> ");
+if length(PosImp) > 0
     ch = addinput(dq,"Mod7","ai2","IEPE");
     ch.ExcitationCurrent = .002;
     ch.Name = "ImpHead"+PosImp;
+
 else
     PosImp = 0;
 end
 
 %% Set up hammer channel
-Ham = input("\nIs the hammer used? (y/n):\n-----> ", "s");
-if Ham == "y"
-    PosHam = input("\nEnter the index of the hammer's position on the sample:\n-----> ");
+
+PosHam = input("\nEnter the index of the hammer's position on the sample:\n(Press enter if it is not used)\n-----> ");
+if length(PosHam) > 0
     ch = addinput(dq,"Mod7","ai3","IEPE");
     ch.ExcitationCurrent = .002;
     ch.Name = "Hammer"+PosHam;
@@ -101,4 +99,7 @@ end
 
 % Displays channels
 channels = dq.Channels
+
+
+
 end

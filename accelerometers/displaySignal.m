@@ -34,4 +34,7 @@ title(label);
 xlabel("Time (s)");
 ylabel(axlabel);
 fprintf("\nSignal "+label+" displayed.\n");
+
+
+
 end

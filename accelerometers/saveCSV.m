@@ -1,6 +1,7 @@
-function saveCSV(dq, data, Nacc, PosVib, PosImp, PosHam, PosAccs)
+function saveCSV(OutputFile, dq, data, Nacc, PosVib, PosImp, PosHam, PosAccs)
 % Saves the "data" timetable into a CSV file with the proper header for BK Connect import.
 % ----- INPUTS -----
+%   OutputFile     % Name of the output csv file
 %   dq             % DataAcquisition object associated with the acquisition card
 %   data           % Timetable of the measurement
 %   Nacc           % Number of accelerometers in use
@@ -8,9 +9,9 @@ function saveCSV(dq, data, Nacc, PosVib, PosImp, PosHam, PosAccs)
 %   PosImp         % position of the impedance head on the sample (index of the associated sample point). If there is no impedance head, PosImp = 0
 %   PosHam         % position of the hammer on the sample (index of the associated sample point). If there is no hammer, PosHam = 0
 %   PosAccs        % vector containing the position of each accelerometer (index of the associated sample points)
-if nargin<7
+if nargin < 8
     error('Not enough input arguments');
-elseif nargin>7
+elseif nargin > 8
     error('Too many input arguments');
 end
 
@@ -27,19 +28,6 @@ validateattributes(PosAccs, {'double'}, {'integer', 'positive', 'numel', Nacc});
 
 
 %% Retrieve output file's name
-test = 1;
-while test
-    OutputFile = input("\nEnter the filename of the output file:\n-----> ", "s");
-    if length(OutputFile) < 5
-        fprintf("The file must be a csv file.\n");
-    elseif OutputFile(end-3:end) ~= '.csv'
-        OutputFile(end-3:end)
-        fprintf("The file must be a csv file.\n");
-    else
-        test = 0;
-    end
-end
-
 lenghtData = height(data);
 Nsignals = width(data);
 deltat = 1/51200;
@@ -132,4 +120,7 @@ tabledata = timetable2table(data);
 tabledata.Time = seconds(tabledata.Time);
 writetable(tabledata, OutputFile, 'WriteVariableNames', false, 'WriteMode', 'append');
 fprintf("\nFile saved.\n");
+
+
+
 end

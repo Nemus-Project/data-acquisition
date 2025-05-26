@@ -63,7 +63,7 @@ while true
         channels = dq.Channels
     elseif ans == "m"
         measure(dq, Nacc, PosVib, PosImp, PosHam, PosAccs, SensVib, SensImp, SensHam);
-    else
+    elseif ans == "c"
         fprintf("\nProgram closed.\n\n");
         return
     end

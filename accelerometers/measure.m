@@ -55,8 +55,21 @@ else
 end
 
 %% Save data in a csv file
-sav = input("Do you want to save the measure? (y/n):\n-----> ", "s");
-if sav ~= "n"
-    saveCSV(dq, data, Nacc, PosVib, PosImp, PosHam, PosAccs);
+test = 1;
+while test
+    OutputFile = input("\nEnter the filename of the output file:\n(Leave blank for skip saving)\n-----> ", "s");
+    if length(OutputFile) == 0
+        test = 0;
+    elseif length(OutputFile) < 5
+        fprintf("The file must be a csv file.\n");
+    elseif OutputFile(end-3:end) ~= '.csv'
+        fprintf("The file must be a csv file.\n");
+    else
+        test = 0;
+        saveCSV(OutputFile, dq, data, Nacc, PosVib, PosImp, PosHam, PosAccs);
+    end
 end
+
+
+
 end
