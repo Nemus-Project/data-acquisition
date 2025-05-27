@@ -20,9 +20,9 @@ if ~isa(dq, 'daq.interfaces.DataAcquisition')
 end
 validateattributes(OutputFile, {'char'}, {});
 if length(OutputFile) < 5
-    error("The file must be a .csv file.")
+    error("The file must be a .csv file.");
 elseif ~strcmp(OutputFile(end-3:end), '.csv')
-    error("The file must be a .csv file.")
+    error("The file must be a .csv file.");
 end
 validateattributes(data, {'timetable'}, {});
 validateattributes(Nacc, {'double'}, {'scalar', 'integer', 'positive'});
