@@ -57,12 +57,12 @@ end
 %% Save data in a csv file
 test = 1;
 while test
-    OutputFile = input("\nEnter the filename of the output file:\n(Leave blank for skip saving)\n-----> ", "s");
+    OutputFile = input("\nEnter the filename of the output file:\n(Leave blank to skip saving)\n-----> ", "s")
     if length(OutputFile) == 0
         test = 0;
     elseif length(OutputFile) < 5
         fprintf("The file must be a csv file.\n");
-    elseif OutputFile(end-3:end) ~= '.csv'
+    elseif ~strcmp(OutputFile(end-3:end), '.csv')
         fprintf("The file must be a csv file.\n");
     else
         test = 0;

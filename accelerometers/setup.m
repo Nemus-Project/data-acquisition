@@ -66,7 +66,7 @@ for i = 1:Nacc
 end
 
 %% Set up vibrometer channel
-PosVib = input("\nEnter the index of the vibrometer's position on the sample:\n(Press enter if it is not used)\n-----> ");
+PosVib = input("\nEnter the index of the vibrometer's position on the sample:\n(Leave blank if it is not used)\n-----> ");
 if length(PosVib) > 0
     ch = addinput(dq,"Mod7","ai1","IEPE");
     ch.ExcitationCurrent = .002;
@@ -76,7 +76,7 @@ else
 end
 
 %% Set up impedance head channel
-PosImp = input("\nEnter the index of the impedance head's position on the sample:\n(Press enter if it is not used)\n-----> ");
+PosImp = input("\nEnter the index of the impedance head's position on the sample:\n(Leave blank if it is not used)\n-----> ");
 if length(PosImp) > 0
     ch = addinput(dq,"Mod7","ai2","IEPE");
     ch.ExcitationCurrent = .002;
@@ -88,7 +88,7 @@ end
 
 %% Set up hammer channel
 
-PosHam = input("\nEnter the index of the hammer's position on the sample:\n(Press enter if it is not used)\n-----> ");
+PosHam = input("\nEnter the index of the hammer's position on the sample:\n(Leave blank if it is not used)\n-----> ");
 if length(PosHam) > 0
     ch = addinput(dq,"Mod7","ai3","IEPE");
     ch.ExcitationCurrent = .002;
