@@ -51,7 +51,7 @@ if PosHam
     data.(HamName) = data.(HamName) / SensHam;
     displaySignal(data,HamName);
 else
-    displaySignal(data,data.Properties.VariableNames{1,1}); % Acc1
+    displaySignal(data,data.Properties.VariableNames{1,1}); % 1st accelerometer
 end
 
 %% Save data in a csv file
