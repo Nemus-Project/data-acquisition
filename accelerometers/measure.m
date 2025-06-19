@@ -46,12 +46,16 @@ if PosImp
     ImpName = data.Properties.VariableNames{1,end-1};
     data.(ImpName) = data.(ImpName) / SensImp;
 end
+for i=1:Nacc
+    Acc = data.Properties.VariableNames{1,i};
+    data.(Acc) = data.(Acc) - mean(data.(Acc));
+end
 if PosHam
     HamName = data.Properties.VariableNames{1,end};
     data.(HamName) = data.(HamName) / SensHam;
     displaySignal(data,HamName);
 else
-    displaySignal(data,data.Properties.VariableNames{1,1}); % Acc1
+    displaySignal(data,data.Properties.VariableNames{1,1}); % 1st accelerometer
 end
 
 %% Save data in a csv file
