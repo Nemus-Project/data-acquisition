@@ -1,8 +1,9 @@
-function saveCSV(OutputFile, dq, data, Nacc, PosVib, PosImp, PosHam, PosAccs)
+function saveCSV(OutputFile, dq, Fs, data, Nacc, PosVib, PosImp, PosHam, PosAccs)
 % Saves the "data" timetable into a CSV file with the proper header for BK Connect import.
 % ----- INPUTS -----
 %   OutputFile     % Name of the output csv file
 %   dq             % DataAcquisition object associated with the acquisition card
+%   Fs             % Sample rate
 %   data           % Timetable of the measurement
 %   Nacc           % Number of accelerometers in use
 %   PosVib         % position of the vibrometer on the sample (index of the associated sample point). If there is no vibrometer, PosVib = 0
@@ -36,7 +37,7 @@ validateattributes(PosAccs, {'double'}, {'integer', 'positive', 'numel', Nacc});
 %% Retrieve output file's name
 lenghtData = height(data);
 Nsignals = width(data);
-deltat = 1/51200;
+deltat = 1/Fs;
 
 % Get current date and time
 currentDateTime = datestr(now, "dd/mm/yyyy HH:MM:SS");

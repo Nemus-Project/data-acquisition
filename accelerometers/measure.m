@@ -1,4 +1,4 @@
-function data = measure(dq, Nacc, PosVib, PosImp, PosHam, PosAccs, SensVib, SensImp, SensHam)
+function data = measure(dq, Fs, Nacc, PosVib, PosImp, PosHam, PosAccs, SensVib, SensImp, SensHam)
 % Realises a continuous measurement with the given parameters and saves it if wanted.
 % ----- INPUT -----
 %   dq             % DataAcquisition object associated with the acquisition card
@@ -66,7 +66,7 @@ while test
         fprintf("The file must be a csv file.\n");
     else
         test = 0;
-        saveCSV(OutputFile, dq, data, Nacc, PosVib, PosImp, PosHam, PosAccs);
+        saveCSV(OutputFile, dq, Fs, data, Nacc, PosVib, PosImp, PosHam, PosAccs);
     end
 end
 

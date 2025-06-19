@@ -5,22 +5,21 @@ clear all
 close all
 clc
 
-% Starting the acquisition card
-dq = daq("ni");
-dq.Rate = 51200; % sample rate
-
 %% Global variables
 
-% Hammer's sensitivity (V/N)
+% Sample rate [Hz]
+Fs = 10240; % 10240, 51200...
+
+% Hammer's sensitivity [V/N]
 SensHam = 0.0225;
 
-% Impedance head's sensitivity (V/N)
+% Impedance head's sensitivity [V/N]
 SensImp = 0.0224;
 
-% Vibrometer's sensitivity (V/(m/s))
+% Vibrometer's sensitivity [V/(m/s)]
 SensVib = 1;
 
-% sensitivity of each accelerometer (V/g)
+% sensitivity of each accelerometer [V/g]
 sensitivities = [.00505 % Acc1
     .00517 % Acc2
     .00508 % Acc3
@@ -52,6 +51,10 @@ sensitivities = [.00505 % Acc1
     ];
 %% ------------------------------- MAIN --------------------------------
 
+% Starting the acquisition card
+dq = daq("ni");
+dq.Rate = Fs; % sample rate
+
 fprintf("Welcome to NI Acquisition!\nThe program will begin by setting up the acquisition card.\n");
 [Nacc, PosVib, PosImp, PosHam, PosAccs] = setup(dq, sensitivities);
 while true
@@ -62,7 +65,7 @@ while true
     elseif ans == "v"
         channels = dq.Channels
     elseif ans == "m"
-        measure(dq, Nacc, PosVib, PosImp, PosHam, PosAccs, SensVib, SensImp, SensHam);
+        measure(dq, Fs, Nacc, PosVib, PosImp, PosHam, PosAccs, SensVib, SensImp, SensHam);
     elseif ans == "c"
         fprintf("\nProgram closed.\n\n");
         return
